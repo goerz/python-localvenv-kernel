@@ -16,7 +16,7 @@ jobs:
     - name: Install Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.10
+        python-version: '3.10'
     - run: |
         python -m pip install build wheel --user
     - name: Build PyPI distributions
@@ -26,4 +26,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
-        password: ${{ secrets.PYPI_TOKEN }}
+        password: ${{ secrets.PYPI_API_TOKEN_PYTHON_LOCALVENV_KERNEL }}
