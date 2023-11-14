@@ -2,12 +2,12 @@
 
 ## Why do I have to install `ipykernel` manually?
 
-We do not modify the environment.
+Virtual environments should be reproducible. We will not modify the project environment in any way.
 
 
 ## How can I change the directory for the virtual environment?
 
-Environment variable
+Currently, the virtual environment has to be in a `.venv` folder. In future versions, we will allow to change this via an environment variable.
 
 
 ## How does this kernel differ from poetry-kernel?
