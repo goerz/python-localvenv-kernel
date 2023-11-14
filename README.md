@@ -2,7 +2,7 @@
 
 A Jupyter kernel that delegates to the `.venv` folder in the notebook directory.
 
-Derived from [`poetry-kernel`](https://github.com/pathbird/poetry-kernel), see the [FAQ](FAQ.md)
+Derived from [`poetry-kernel`](https://github.com/pathbird/poetry-kernel), see the [FAQ](https://github.com/goerz/python-localvenv-kernel/blob/master/FAQ.md)
 
 ## Installation
 
@@ -26,4 +26,4 @@ conda install python-local-venv
 
 ## FAQ
 
-[See FAQ.md.](FAQ.md)
+[See FAQ.md.](https://github.com/goerz/python-localvenv-kernel/blob/master/FAQ.md)
