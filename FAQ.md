@@ -4,6 +4,24 @@
 
 Virtual environments should be reproducible. We will not modify the project environment in any way.
 
+## The "Python (local .venv)" kernel does not show up in Jupyter
+
+The `python-localvenv-kernl` must be installed in the same environment as `jupyter`. Run `jupyter kernelspec list`. This should show something like
+
+```
+…
+python-localvenv     {sys.prefix}/share/jupyter/kernels/python-localvenv
+python3              {sys.prefix}/share/jupyter/kernels/python3
+```
+
+where `{sys.prefix}` is the path to the environment where `jupyter` is installed. The `python3` kernel on the last line is the default kernel for that Jupyter installation. If `python-localvenv` is not listed with the same `{sys.prefix}`, the package is not installed correctly. Run
+
+```
+./bin/python -m pip install python-localvenv-kernel
+```
+
+inside the `{sys.prefix}` folder (or, if the `{sys.prefix}` folder is managed by `conda`, use `conda install python-localvenv-kernel` as appropriate) to install the package into the environment.
+
 
 ## How can I change the directory for the virtual environment?
 

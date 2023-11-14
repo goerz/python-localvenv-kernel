@@ -1,7 +1,9 @@
+import os
 import platform
 import signal
 import subprocess
 import sys
+from textwrap import dedent
 from pathlib import Path
 
 import colorama
@@ -10,31 +12,66 @@ import colorama
 def main():
     colorama.init()
 
+    cwd = Path().resolve()
     name = ".venv"
-    venv_folder = find_venv(name)
+    venv_folder = find_venv(cwd, name)
     if venv_folder is None:
         error(
-            """Cannot start python-localvenv kernel:
-                expected folder {venv_name} in notebook directory
-                (or any parent directory)
-            """,
-            f"Couldn't find a virtual environment {name}",
+            f"""
+            Cannot start python-localvenv kernel:
+
+            Expected folder "{name}" in notebook directory
+            {cwd}
+            (or any parent directory)
+            """
         )
     python = venv_folder / "bin" / "python"
-    # TODO: ensure that python exists
+    if not is_exe(python):
+        error(
+            f"""
+            Cannot start python-localvenv kernel:
+
+            {python}
+            for launching environment kernel is not executable
+            """
+        )
+    cmd_check_kernel = [
+        python,
+        "-m",
+        "ipykernel_launcher",
+        "--version",
+    ]
+    try:
+        kernel_version = subprocess.check_output(
+            cmd_check_kernel, stderr=subprocess.STDOUT, text=True
+        )
+    except subprocess.CalledProcessError as exc_info:
+        error(
+            f"""
+            Cannot start python-localvenv kernel:
+
+            {' '.join([str(a) for a in cmd_check_kernel])}
+            returned exit status {exc_info.returncode}
+
+            ERROR: {exc_info.output.strip()}
+
+            Make sure that the 'ipykernel' package is installed in the virtual
+            environment {venv_folder}
+            """
+        )
     cmd = [
         python,
         "-m",
         "ipykernel_launcher",
         *sys.argv[1:],
     ]
-    # TODO: test "python -m ipykernel_launcher --version"
     print(
         colorama.Fore.GREEN
         + "PYTHON-LOCALVENV KERNEL"
         + colorama.Style.RESET_ALL
         + " delegate to "
-        + " ".join([str(part) for part in cmd]),
+        + " ".join([str(part) for part in cmd])
+        + f" (version {kernel_version.strip()})",
         file=sys.stderr,
     )
     proc = subprocess.Popen(cmd)
@@ -59,35 +96,39 @@ def main():
 
     exit_code = proc.wait()
     if exit_code == 0:
-        print("ipykernel_launcher exited", file=sys.stderr)
+        print(
+            "PYTHON-LOCALVENV KERNEL: ipykernel_launcher exited",
+            file=sys.stderr,
+        )
     else:
         print(
-            "ipykernel_launcher exited with error code:",
+            "PYTHON-LOCALVENV KERNEL: ipykernel_launcher exited with code:",
             exit_code,
             file=sys.stderr,
         )
 
 
-def error(msg, reason):
+def is_exe(fpath):
+    return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+
+def error(msg):
     print(
         colorama.Fore.RED
         + colorama.Style.BRIGHT
-        + +"\n"
+        + "\n"
         + "!" * 80
-        + "\n"
-        + msg
-        + "\n"
+        + dedent(msg)
         + "!" * 80
         + "\n"
         + colorama.Style.RESET_ALL,
         file=sys.stderr,
     )
-    raise RuntimeError(f"Cannot start python-localvenv kernel: {reason}")
+    sys.exit(1)
 
 
-def find_venv(name):
-    cwd = Path().resolve()
-    candidate_dirs = [cwd, *cwd.parents]
+def find_venv(root, name):
+    candidate_dirs = [root, *root.parents]
     for dirs in candidate_dirs:
         venv_folder = dirs / name
         if venv_folder.is_dir():

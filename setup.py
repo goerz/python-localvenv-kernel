@@ -12,7 +12,7 @@ setup_args = dict()
 # Note: this was adapted from the ipython/ipykernel setup.py script
 # https://github.com/ipython/ipykernel/blob/abefee4c935ee79d3821dfda02f1511f55d4c996/setup.py#L95
 # (Modified BSD License)
-if any(a.startswith(("bdist", "install")) for a in sys.argv):
+if any(a.startswith(("bdist", "install", "develop")) for a in sys.argv):
     sys.path.insert(0, os.path.join(current_dir, "src"))
 
     spec_dir = os.path.join(current_dir, "data_kernelspec")
@@ -31,6 +31,7 @@ if any(a.startswith(("bdist", "install")) for a in sys.argv):
             glob(os.path.join(spec_dir, "*")),
         ),
     ]
+# NOTE: editable installs won't copy the kernel file!
 
 with open(os.path.join(current_dir, "README.md")) as fp:
     README = fp.read()
