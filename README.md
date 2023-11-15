@@ -1,6 +1,7 @@
 # Python Local `.venv` Kernel
 
 [![Github](https://img.shields.io/badge/goerz-python--localvenv--kernel-blue.svg?logo=github)](https://github.com/goerz/python-localvenv-kernel)
+[![Build Status](https://github.com/goerz/python-localvenv-kernel/workflows/CI/badge.svg)](https://github.com/goerz/python-localvenv-kernel/actions)
 [![PyPI](https://img.shields.io/pypi/v/python-localvenv-kernel.svg)](https://pypi.org/project/python-localvenv-kernel/)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-localvenv-kernel.svg)](https://anaconda.org/conda-forge/python-localvenv-kernel)
 [![Conda Recipe](https://img.shields.io/badge/recipe-conda--forge-green.svg)](https://github.com/conda-forge/python-localvenv-kernel-feedstock)

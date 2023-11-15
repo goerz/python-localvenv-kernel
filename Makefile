@@ -1,4 +1,4 @@
-.PHONY: help clean install develop uninstall
+.PHONY: help clean install develop uninstall build test
 
 .DEFAULT_GOAL := help
 
@@ -56,8 +56,24 @@ uninstall:  ## Uninstall package installed with `make install` or `make develop`
 build: ## Locally build package (source distribution and wheel)
 	$(PYTHON) -m build --no-isolation
 
+.site-venv/bin/python: 
+	$(PYTHON) -m venv .site-venv
+	PIP_DISABLE_PIP_VERSION_CHECK=1 .site-venv/bin/python -m pip install -r test/requirements-site.txt
+	PIP_DISABLE_PIP_VERSION_CHECK=1 .site-venv/bin/python -m pip install -e .
+	.site-venv/bin/python -c "$$DEVELOP_KERNEL_INSTALL_PYSCRIPT"
+
+.venv/bin/python:
+	$(PYTHON) -m venv .venv
+	PIP_DISABLE_PIP_VERSION_CHECK=1 .venv/bin/python -m pip install -r test/requirements-local.txt
+
+test: .site-venv/bin/python .venv/bin/python  ## Test the kernel
+	.site-venv/bin/python test/test_kernel.py
+
 clean:   ## Remove all build and compilation artifacts
 	rm -rf build
 	rm -rf dist
 	rm -rf python_localvenv_kernel.egg-info
 	rm -rf src/localvenv_kernel/__pycache__
+	rm -rf test/__pycache__
+	rm -rf .site-venv
+	rm -rf .venv

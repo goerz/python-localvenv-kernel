@@ -1,0 +1,5 @@
+jupyter
+jupyter_kernel_test
+build
+wheel
+twine
