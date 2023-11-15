@@ -12,25 +12,30 @@ import colorama
 def main():
     colorama.init()
 
+    # The working directory (cwd) is always the folder that contains the
+    # notebook. This may be a subfolder of the directory in which the Jupyter
+    # server was started.
     cwd = Path().resolve()
-    name = ".venv"
+    name = os.environ.get("KERNEL_VENV", ".venv").strip()
     venv_folder = find_venv(cwd, name)
     if venv_folder is None:
-        error(
-            f"""
-            Cannot start python-localvenv kernel:
-
-            Expected folder "{name}" in notebook directory
-            {cwd}
-            (or any parent directory)
-            """
-        )
+        if os.path.isabs(name):
+            error(
+                f"""
+                Expected folder KERNEL_VENV="{name}" to exist
+                """
+            )
+        else:
+            error(
+                f"""
+                Expected folder "{name}" in notebook directory {cwd}
+                (or any parent directory)
+                """
+            )
     python = venv_folder / "bin" / "python"
     if not is_exe(python):
         error(
             f"""
-            Cannot start python-localvenv kernel:
-
             {python}
             for launching environment kernel is not executable
             """
@@ -48,8 +53,6 @@ def main():
     except subprocess.CalledProcessError as exc_info:
         error(
             f"""
-            Cannot start python-localvenv kernel:
-
             {' '.join([str(a) for a in cmd_check_kernel])}
             returned exit status {exc_info.returncode}
 
@@ -118,6 +121,7 @@ def error(msg):
         + colorama.Style.BRIGHT
         + "\n"
         + "!" * 80
+        + "\nCannot start python-localvenv kernel:\n"
         + dedent(msg)
         + "!" * 80
         + "\n"
@@ -129,10 +133,13 @@ def error(msg):
 
 def find_venv(root, name):
     candidate_dirs = [root, *root.parents]
-    for dirs in candidate_dirs:
-        venv_folder = dirs / name
-        if venv_folder.is_dir():
-            return venv_folder
+    if os.path.isabs(name) and os.path.isdir(name):
+        return Path(name)
+    else:
+        for dirs in candidate_dirs:
+            venv_folder = dirs / name
+            if venv_folder.is_dir():
+                return venv_folder
     return None
 
 

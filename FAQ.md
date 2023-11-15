@@ -25,14 +25,21 @@ inside the `{sys.prefix}` folder (or, if the `{sys.prefix}` folder is managed by
 
 ## How can I change the directory for the virtual environment?
 
-Currently, the virtual environment has to be in a `.venv` folder. In future versions, we will allow to change this via an environment variable.
+Setting the environment variable `KERNEL_VENV` allows to override the folder name for the project virtual environment. The `python-localvenv-kernel` will search for the folder name in the directory where the notebook file is located and all its parent directories.
+
+Setting `KERNEL_VENV` to an absolute path will use that path directly. In all cases, the `KERNEL_VENV` must point to a Python environment (`{KERNEL_VENV}/bin/python` must exist) and that environment must have the `ipykernel` package installed.
 
 
 ## How does this kernel differ from poetry-kernel?
 
-The `python-localvenv-kernel` is derived from the [`poetry-kernel`](https://github.com/pathbird/poetry-kernel). However, instead of delegating to whatever virtual environment Poetry has set up for a project, `python-localvenv-kernel` always delegates to a virtual environment in the `.venv` subdirectory of the project folder.
+The `python-localvenv-kernel` is derived from the [`poetry-kernel`](https://github.com/pathbird/poetry-kernel). However, instead of delegating to whatever virtual environment Poetry has set up for a project, `python-localvenv-kernel` always delegates to a virtual environment in the `.venv` subdirectory of the project folder (respectively, the directory pointed to by the `KERNEL_VENV` environment variable).
 
 Thus, `python-localvenv-kernel` does not depend on Poetry. The `.venv` directory could be set up with a simple `python -m venv .venv` and initialized with `pip` based on a `requirements.txt`.
 
 If Poetry's [`virtualenvs.in-project`](https://python-poetry.org/docs/configuration/#virtualenvsin-project) option is set to `true`, Poetry will use a local `.venv` folder for its virtual environment. In that case, the `python-localvenv-kernel` is a *replacement* for `poetry-kernel`. If Poetry is set up to create virtual environments in its [cache directory](https://python-poetry.org/docs/configuration/#cache-directory), the `poetry-kernel` would still be required to run it.
 
+If `virtualenvs.in-project` is `false`, the `python-locavenv-kernel` can still replace `poetry-kernel` by setting the environment variable
+
+~~~
+KERNEL_VENV=`poetry env info -p`
+~~~
