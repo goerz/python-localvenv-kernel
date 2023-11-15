@@ -56,7 +56,7 @@ uninstall:  ## Uninstall package installed with `make install` or `make develop`
 build: ## Locally build package (source distribution and wheel)
 	$(PYTHON) -m build --no-isolation
 
-.site-venv/bin/python: 
+.site-venv/bin/python:
 	$(PYTHON) -m venv .site-venv
 	PIP_DISABLE_PIP_VERSION_CHECK=1 .site-venv/bin/python -m pip install -r test/requirements-site.txt
 	PIP_DISABLE_PIP_VERSION_CHECK=1 .site-venv/bin/python -m pip install -e .
@@ -68,6 +68,9 @@ build: ## Locally build package (source distribution and wheel)
 
 test: .site-venv/bin/python .local-venv/bin/python  ## Test the kernel
 	KERNEL_VENV=.local-venv .site-venv/bin/python test/test_kernel.py
+
+codestyle:  ## Auto-format the code
+	black --line-length 79 .
 
 clean:   ## Remove all build and compilation artifacts
 	rm -rf build

@@ -29,7 +29,7 @@ if any(a.startswith(("bdist", "install", "develop")) for a in sys.argv):
         # (i.e., the virtual environment or system Python installation).
         (
             os.path.join("share", "jupyter", "kernels", "python-localvenv"),
-            [str(f) for f in spec_dir.glob("*")]
+            [str(f) for f in spec_dir.glob("*")],
         ),
     ]
 # NOTE: Editable installs won't copy the kernel file. See `Makefile`

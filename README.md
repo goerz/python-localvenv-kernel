@@ -9,12 +9,12 @@
 
 A Jupyter kernel that delegates to `ipykernel` in the `.venv` environment of a project folder.
 
-Derived from [`poetry-kernel`](https://github.com/pathbird/poetry-kernel), see the [FAQ][].
+Derived from [`poetry-kernel`](https://github.com/pathbird/poetry-kernel), see the [FAQ](https://github.com/goerz/python-localvenv-kernel/blob/master/FAQ.md#how-does-this-kernel-differ-from-poetry-kernel).
 
 
 ## Installation
 
-The `python-localvenv-kernel` package can be installed via `pip` (`pip install python-localvenv-kernel`) or as a Conda package (`conda install python-localvenv-kernel`).
+The `python-localvenv-kernel` package can be installed via `pip` (`pip install python-localvenv-kernel`) or as a [Conda package](https://github.com/conda-forge/python-localvenv-kernel-feedstock#about-python-localvenv-kernel-feedstock) (`conda install python-localvenv-kernel`).
 
 It must be installed into the same environment as the Jupyter server, see [Usage](#usage) below.
 
@@ -22,7 +22,7 @@ It must be installed into the same environment as the Jupyter server, see [Usage
 ## Usage
 
 * Jupyter and the `python-localvenv-kernel` package should be installed in the same environment
-* The project folder must have a virtual (project) environment instantiated in a subfolder `.venv`. The name of folder can be overridden by setting the environment variable `KERNEL_VENV` (see [FAQ][])
+* The project folder must have a virtual (project) environment instantiated in a subfolder `.venv`. The name of folder can be overridden by setting the environment variable `KERNEL_VENV` (see [FAQ](https://github.com/goerz/python-localvenv-kernel/blob/master/FAQ.md#how-can-i-change-the-directory-for-the-virtual-environment))
 * The project environment must include the `ipykernel` package (but not `jupyter`)
 * Start Jupyter from the project folder
 * Select the "Python (local .venv)" kernel

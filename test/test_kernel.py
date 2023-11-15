@@ -1,5 +1,6 @@
 import unittest
 import jupyter_kernel_test as jkt
+
 # Using test suite from https://github.com/jupyter/jupyter_kernel_test
 
 # This test file must be run from a "site" Python environment that has the
