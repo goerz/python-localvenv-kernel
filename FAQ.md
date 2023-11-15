@@ -20,14 +20,16 @@ where `{sys.prefix}` is the path to the environment where `jupyter` is installed
 ./bin/python -m pip install python-localvenv-kernel
 ```
 
-inside the `{sys.prefix}` folder (or, if the `{sys.prefix}` folder is managed by `conda`, use `conda install python-localvenv-kernel` as appropriate) to install the package into the environment.
+inside the `{sys.prefix}` folder to install the package into the environment (or, if the `{sys.prefix}` folder is managed by `conda`, use `conda install python-localvenv-kernel` as appropriate).
 
 
 ## How can I change the directory for the virtual environment?
 
 Setting the environment variable `KERNEL_VENV` allows to override the folder name for the project virtual environment. The `python-localvenv-kernel` will search for the folder name in the directory where the notebook file is located and all its parent directories.
 
-Setting `KERNEL_VENV` to an absolute path will use that path directly. In all cases, the `KERNEL_VENV` must point to a Python environment (`{KERNEL_VENV}/bin/python` must exist) and that environment must have the `ipykernel` package installed.
+Setting `KERNEL_VENV` to an absolute path will use that path directly. In all cases, the `KERNEL_VENV` must point to a Python environment and have the `ipykernel` package installed.
+
+A valid Python environment must have a Python executable at `{KERNEL_VENV}/bin/python` (`{KERNEL_VENV}\Scripts\python` on Windows). For exotic environments, the location of the `python` executable can set with via the `KERNEL_VENV_PYTHON` environment variable, relative to `KERNEL_VENV`.
 
 
 ## How does this kernel differ from poetry-kernel?

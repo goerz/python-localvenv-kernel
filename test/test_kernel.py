@@ -1,5 +1,6 @@
 import unittest
 import jupyter_kernel_test as jkt
+from os.path import sep
 
 # Using test suite from https://github.com/jupyter/jupyter_kernel_test
 
@@ -36,8 +37,8 @@ class LocalVenvKernelTests(jkt.KernelTests):
             code="import sympy; sympy.__file__"
         )
         output = output_msgs[0]["content"]["data"]["text/plain"]
-        self.assertTrue("/.local-venv/" in output)
-        self.assertFalse("/.site-venv/" in output)
+        self.assertTrue(f"{sep}.local-venv{sep}" in output)
+        self.assertFalse(f"{sep}.site-venv{sep}" in output)
 
 
 if __name__ == "__main__":

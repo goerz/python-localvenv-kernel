@@ -17,7 +17,7 @@ env:
 
 jobs:
   test:
-    name: Test
+    name: Test (Linux)
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -42,6 +42,29 @@ jobs:
     - name: Run test
       run: |
         python test/test_kernel.py
+  test-windows:
+    name: Test (Windows)
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install prerequisites
+      run: |
+        python -m pip install -r test\requirements-site.txt
+    - name: Install package
+      run: |
+        python -m pip install .
+    - name: Set up project environment for test
+      run: |
+        python -m venv .local-venv
+        .\.local-venv\Scripts\activate
+        python -m pip install -r test\requirements-local.txt
+    - name: Run test
+      run: |
+        python test\test_kernel.py
   codestyle:
     name: Codestyle
     runs-on: ubuntu-latest

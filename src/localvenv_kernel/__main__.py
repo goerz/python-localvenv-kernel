@@ -32,14 +32,7 @@ def main():
                 (or any parent directory)
                 """
             )
-    python = venv_folder / "bin" / "python"
-    if not is_exe(python):
-        error(
-            f"""
-            {python}
-            for launching environment kernel is not executable
-            """
-        )
+    python = find_python(venv_folder)
     cmd_check_kernel = [
         python,
         "-m",
@@ -111,10 +104,6 @@ def main():
         )
 
 
-def is_exe(fpath):
-    return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-
-
 def error(msg):
     print(
         colorama.Fore.RED
@@ -141,6 +130,16 @@ def find_venv(root, name):
             if venv_folder.is_dir():
                 return venv_folder
     return None
+
+
+def find_python(venv):
+    if "KERNEL_VENV_PYTHON" in os.environ:
+        python = venv / os.path.normpath(os.environ["KERNEL_VENV_PYTHON"])
+    else:
+        python = venv / "bin" / "python"
+        if platform.system() == "Windows":
+            python = venv / "Scripts" / "python"
+    return python
 
 
 if __name__ == "__main__":
