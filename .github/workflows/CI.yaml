@@ -13,6 +13,7 @@ on:
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
+  KERNEL_VENV: .local-venv
 
 jobs:
   test:
@@ -36,8 +37,8 @@ jobs:
         python -m pip install dist/*.whl
     - name: Set up project environment for test
       run: |
-        python -m venv .venv
-        .venv/bin/python -m pip install -r test/requirements-local.txt
+        python -m venv .local-venv
+        .local-venv/bin/python -m pip install -r test/requirements-local.txt
     - name: Run test
       run: |
         python test/test_kernel.py

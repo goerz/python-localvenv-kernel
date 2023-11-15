@@ -62,12 +62,12 @@ build: ## Locally build package (source distribution and wheel)
 	PIP_DISABLE_PIP_VERSION_CHECK=1 .site-venv/bin/python -m pip install -e .
 	.site-venv/bin/python -c "$$DEVELOP_KERNEL_INSTALL_PYSCRIPT"
 
-.venv/bin/python:
-	$(PYTHON) -m venv .venv
-	PIP_DISABLE_PIP_VERSION_CHECK=1 .venv/bin/python -m pip install -r test/requirements-local.txt
+.local-venv/bin/python:
+	$(PYTHON) -m venv .local-venv
+	PIP_DISABLE_PIP_VERSION_CHECK=1 .local-venv/bin/python -m pip install -r test/requirements-local.txt
 
-test: .site-venv/bin/python .venv/bin/python  ## Test the kernel
-	.site-venv/bin/python test/test_kernel.py
+test: .site-venv/bin/python .local-venv/bin/python  ## Test the kernel
+	KERNEL_VENV=.local-venv .site-venv/bin/python test/test_kernel.py
 
 clean:   ## Remove all build and compilation artifacts
 	rm -rf build
@@ -76,4 +76,4 @@ clean:   ## Remove all build and compilation artifacts
 	rm -rf src/localvenv_kernel/__pycache__
 	rm -rf test/__pycache__
 	rm -rf .site-venv
-	rm -rf .venv
+	rm -rf .local-venv

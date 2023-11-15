@@ -108,6 +108,7 @@ celerybeat.pid
 .env
 .venv
 .site-venv
+.local-venv
 env/
 venv/
 ENV/
