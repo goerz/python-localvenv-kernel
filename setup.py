@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 from glob import glob
+from pathlib import Path
 
 from setuptools import find_packages, setup
 
@@ -15,10 +16,10 @@ setup_args = dict()
 if any(a.startswith(("bdist", "install", "develop")) for a in sys.argv):
     sys.path.insert(0, os.path.join(current_dir, "src"))
 
-    spec_dir = os.path.join(current_dir, "data_kernelspec")
-    if os.path.exists(spec_dir):
+    spec_dir = Path(current_dir) / "build" / "kernels" / "python-localvenv"
+    if spec_dir.is_dir():
         shutil.rmtree(spec_dir)
-    os.mkdir(spec_dir)
+    spec_dir.mkdir(parents=True)
     from localvenv_kernel.kernelspec import _write_kernelspec
 
     _write_kernelspec(spec_dir)
@@ -28,10 +29,10 @@ if any(a.startswith(("bdist", "install", "develop")) for a in sys.argv):
         # (i.e., the virtual environment or system Python installation).
         (
             os.path.join("share", "jupyter", "kernels", "python-localvenv"),
-            glob(os.path.join(spec_dir, "*")),
+            [str(f) for f in spec_dir.glob("*")]
         ),
     ]
-# NOTE: editable installs won't copy the kernel file!
+# NOTE: Editable installs won't copy the kernel file. See `Makefile`
 
 with open(os.path.join(current_dir, "README.md")) as fp:
     README = fp.read()
