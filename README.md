@@ -27,9 +27,9 @@ It must be installed into the same environment as the Jupyter server, see [Usage
 * Start Jupyter from the project folder
 * Select the "Python (local .venv)" kernel
 
-![Jupyter launcher screenshot (kernel selector)](https://github.com/goerz/python-localvenv-kernel/blob/master/.static/jupyter-screenshot.png)
+![Jupyter launcher screenshot (kernel selector)](https://github.com/goerz/python-localvenv-kernel/blob/master/.static/jupyter-screenshot.png?raw=true)
 
-![Jupyter launcher screenshot (notebook)](https://github.com/goerz/python-localvenv-kernel/blob/master/.static/jupyter-screenshot-2.png)
+![Jupyter launcher screenshot (notebook)](https://github.com/goerz/python-localvenv-kernel/blob/master/.static/jupyter-screenshot-2.png?raw=true)
 
 
 ## FAQ
