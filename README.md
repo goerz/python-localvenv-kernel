@@ -11,6 +11,10 @@ A Jupyter kernel that delegates to `ipykernel` in the `.venv` environment of a p
 
 Derived from [`poetry-kernel`](https://github.com/pathbird/poetry-kernel), see the [FAQ](https://github.com/goerz/python-localvenv-kernel/blob/master/FAQ.md#how-does-this-kernel-differ-from-poetry-kernel).
 
+See the demo at the December 2023 Jupyter Community Call:
+
+[![Jupyter Community Call](https://img.youtube.com/vi/hUU77BfU-Kk/0.jpg)](https://www.youtube.com/watch?v=hUU77BfU-Kk&t=360)
+
 
 ## Installation
 
