@@ -39,7 +39,7 @@ with open(os.path.join(current_dir, "README.md")) as fp:
 
 setup(
     name="python-localvenv-kernel",
-    version="0.1.5+dev",
+    version="0.1.6",
     author="Michael H. Goerz",
     author_email="mail@michaelgoerz.net",
     url="https://github.com/goerz/python-localvenv-kernel",
