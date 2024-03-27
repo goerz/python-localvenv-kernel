@@ -14,6 +14,9 @@ def _write_kernelspec(dir):
         ],
         "display_name": "Python (local .venv)",
         "language": "python",
+        "metadata": {
+            "debugger": True,
+        },
     }
     with open(os.path.join(dir, "kernel.json"), "w") as fp:
         json.dump(spec, fp)
