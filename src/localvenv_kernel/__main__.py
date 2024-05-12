@@ -55,6 +55,15 @@ def main():
             environment {venv_folder}
             """
         )
+    except OSError as exc_info:
+        error(
+            f"""
+            {' '.join([str(a) for a in cmd_check_kernel])}
+            failed:
+
+            ERROR: {exc_info}
+            """
+        )
     cmd = [
         python,
         "-m",
@@ -138,7 +147,11 @@ def find_python(venv):
     else:
         python = venv / "bin" / "python"
         if platform.system() == "Windows":
-            python = venv / "Scripts" / "python"
+            python = venv / "Scripts" / "python.exe"  # python -m venv
+            if not python.is_file():  # some versions of conda (?)
+                python = venv / "python.exe"
+    if not python.is_file():
+        print(f"WARNING: file '{python}' does not exist")
     return python
 
 
